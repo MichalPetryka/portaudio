@@ -1,7 +1,7 @@
 /** @file paex_read_write_wire.c
-	@ingroup examples_src
-	@brief Tests full duplex blocking I/O by passing input straight to output.
-	@author Bjorn Roche. XO Audio LLC for Z-Systems Engineering.
+    @ingroup examples_src
+    @brief Tests full duplex blocking I/O by passing input straight to output.
+    @author Bjorn Roche. XO Audio LLC for Z-Systems Engineering.
     @author based on code by: Phil Burk  http://www.softsynth.com
     @author based on code by: Ross Bencina rossb@audiomulch.com
 */
@@ -202,4 +202,3 @@ error2:
     fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
     return -1;
 }
-

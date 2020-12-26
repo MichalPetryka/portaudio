@@ -26,22 +26,22 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
 /** @file patest_sine_srate_mac.c
-	@ingroup test_src
-	@brief Plays sine waves at 44100 and 48000,
+    @ingroup test_src
+    @brief Plays sine waves at 44100 and 48000,
           and forces the hardware to change if this is a mac.
           Designed for use with CoreAudio.
-	@author Bjorn Roche <bjorn@xowave.com>
+    @author Bjorn Roche <bjorn@xowave.com>
    @author Ross Bencina <rossb@audiomulch.com>
    @author Phil Burk <philburk@softsynth.com>
 */
@@ -89,7 +89,7 @@ static int patestCallback( const void *inputBuffer, void *outputBuffer,
     (void) timeInfo; /* Prevent unused variable warnings. */
     (void) statusFlags;
     (void) inputBuffer;
-    
+
     for( i=0; i<framesPerBuffer; i++ )
     {
         *out++ = data->sine[data->left_phase];  /* left */
@@ -99,7 +99,7 @@ static int patestCallback( const void *inputBuffer, void *outputBuffer,
         data->right_phase += 3; /* higher pitch so we can distinguish left and right. */
         if( data->right_phase >= TABLE_SIZE ) data->right_phase -= TABLE_SIZE;
     }
-    
+
     return paContinue;
 }
 
@@ -171,7 +171,7 @@ int main(void)
 
     Pa_Terminate();
     printf("Test finished.\n");
-    
+
     return err;
 error:
     Pa_Terminate();

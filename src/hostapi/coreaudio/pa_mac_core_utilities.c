@@ -15,7 +15,7 @@
  * Olivier Tristan for feedback and testing
  * Glenn Zelniker and Z-Systems engineering for sponsoring the Blocking I/O
  * interface.
- * 
+ *
  *
  * Based on the Open Source API proposed by Ross Bencina
  * Copyright (c) 1999-2002 Ross Bencina, Phil Burk
@@ -41,13 +41,13 @@
  */
 
 /*
- * The text above constitutes the entire PortAudio license; however, 
+ * The text above constitutes the entire PortAudio license; however,
  * the PortAudio community also makes the following non-binding requests:
  *
  * Any person wishing to distribute modifications to the Software is
  * requested to send the modifications to the original developer so that
- * they can be incorporated into the canonical version. It is also 
- * requested that these non-binding requests be included along with the 
+ * they can be incorporated into the canonical version. It is also
+ * requested that these non-binding requests be included along with the
  * license above.
  */
 
@@ -97,16 +97,16 @@ PaError PaMacCore_SetError(OSStatus error, int line, int isError)
     /*FIXME: still need to handle possible ComponentResult values.*/
     /*       unfortunately, they don't seem to be documented anywhere.*/
     PaError result;
-    const char *errorType; 
+    const char *errorType;
     const char *errorText;
-    
+
     switch (error) {
     case kAudioHardwareNoError:
         return paNoError;
     case kAudioHardwareNotRunningError:
         errorText = "Audio Hardware Not Running";
         result = paInternalError; break;
-    case kAudioHardwareUnspecifiedError: 
+    case kAudioHardwareUnspecifiedError:
         errorText = "Unspecified Audio Hardware Error";
         result = paInternalError; break;
     case kAudioHardwareUnknownPropertyError:
@@ -115,7 +115,7 @@ PaError PaMacCore_SetError(OSStatus error, int line, int isError)
     case kAudioHardwareBadPropertySizeError:
         errorText = "Audio Hardware: Bad Property Size";
         result = paInternalError; break;
-    case kAudioHardwareIllegalOperationError: 
+    case kAudioHardwareIllegalOperationError:
         errorText = "Audio Hardware: Illegal Operation";
         result = paInternalError; break;
     case kAudioHardwareBadDeviceError:
@@ -257,7 +257,7 @@ long computeRingBufferSize( const PaStreamParameters *inputParameters,
    {
       latency = MAX( inputParameters->suggestedLatency, outputParameters->suggestedLatency );
       framesPerBuffer = MAX( inputFramesPerBuffer, outputFramesPerBuffer );
-   } 
+   }
    else if( outputParameters )
    {
       latency = outputParameters->suggestedLatency;
@@ -308,17 +308,17 @@ long computeRingBufferSize( const PaStreamParameters *inputParameters,
  */
 
 OSStatus propertyProc(
-    AudioDeviceID inDevice, 
-    UInt32 inChannel, 
-    Boolean isInput, 
-    AudioDevicePropertyID inPropertyID, 
+    AudioDeviceID inDevice,
+    UInt32 inChannel,
+    Boolean isInput,
+    AudioDevicePropertyID inPropertyID,
     void* inClientData )
 {
    // this is where we would set the condition variable
    return noErr;
 }
 
-/* sets the value of the given property and waits for the change to 
+/* sets the value of the given property and waits for the change to
    be acknowledged, and returns the final value, which is not guaranteed
    by this function to be the same as the desired value. Obviously, this
    function can only be used for data whose input and output are the
@@ -329,10 +329,10 @@ OSStatus propertyProc(
    determining if the property was read. */
 PaError AudioDeviceSetPropertyNowAndWaitForChange(
     AudioDeviceID inDevice,
-    UInt32 inChannel, 
-    Boolean isInput, 
+    UInt32 inChannel,
+    Boolean isInput,
     AudioDevicePropertyID inPropertyID,
-    UInt32 inPropertyDataSize, 
+    UInt32 inPropertyDataSize,
     const void *inPropertyData,
     void *outPropertyData )
 {
@@ -341,7 +341,7 @@ PaError AudioDeviceSetPropertyNowAndWaitForChange(
 
    /* First, see if it already has that value. If so, return. */
    macErr = AudioDeviceGetProperty( inDevice, inChannel,
-                                 isInput, inPropertyID, 
+                                 isInput, inPropertyID,
                                  &outPropertyDataSize, outPropertyData );
    if( macErr ) {
       memset( outPropertyData, 0, inPropertyDataSize );
@@ -359,7 +359,7 @@ PaError AudioDeviceSetPropertyNowAndWaitForChange(
       but for now, this is just to make 10.6 happy. */
    macErr = AudioDeviceAddPropertyListener( inDevice, inChannel, isInput,
                                    inPropertyID, propertyProc,
-                                   NULL ); 
+                                   NULL );
    if( macErr )
       /* we couldn't add a listener. */
       goto failMac;
@@ -381,7 +381,7 @@ PaError AudioDeviceSetPropertyNowAndWaitForChange(
    while( tv2.tv_sec - tv1.tv_sec < 30 ) {
       /* now read the property back out */
       macErr = AudioDeviceGetProperty( inDevice, inChannel,
-                                    isInput, inPropertyID, 
+                                    isInput, inPropertyID,
                                     &outPropertyDataSize, outPropertyData );
       if( macErr ) {
          memset( outPropertyData, 0, inPropertyDataSize );
@@ -397,7 +397,7 @@ PaError AudioDeviceSetPropertyNowAndWaitForChange(
       gettimeofday( &tv2, NULL );
    }
    DBUG( ("Timeout waiting for device setting.\n" ) );
-   
+
    AudioDeviceRemovePropertyListener( inDevice, inChannel, isInput, inPropertyID, propertyProc );
    return paNoError;
 
@@ -473,7 +473,7 @@ PaError setBestSampleRateForDevice( const AudioDeviceID device,
               (float) ranges[i].mMaximum ) );
 #endif
    VDBUG(("-----\n"));
-   
+
    /* -- now pick the best available sample rate -- */
    for( i=0; i<propsize/sizeof(AudioValueRange); ++i )
    {
@@ -521,7 +521,7 @@ PaError setBestSampleRateForDevice( const AudioDeviceID device,
 */
 PaError setBestFramesPerBuffer( const AudioDeviceID device,
                                 const bool isOutput,
-                                UInt32 requestedFramesPerBuffer, 
+                                UInt32 requestedFramesPerBuffer,
                                 UInt32 *actualFramesPerBuffer )
 {
     UInt32 afpb;
@@ -551,7 +551,7 @@ PaError setBestFramesPerBuffer( const AudioDeviceID device,
     {
         return paNoError; /* we are done */
     }
-    
+
     // Clip requested value against legal range for the device.
     propsize = sizeof(AudioValueRange);
     err = AudioDeviceGetProperty( device, 0, isInput,
@@ -569,7 +569,7 @@ PaError setBestFramesPerBuffer( const AudioDeviceID device,
     {
         requestedFramesPerBuffer = range.mMaximum;
     }
-    
+
    /* --- set the buffer size (ignore errors) -- */
     propsize = sizeof( UInt32 );
    err = AudioDeviceSetProperty( device, NULL, 0, isInput,
@@ -606,10 +606,10 @@ static int xRunListSize;
 static pthread_mutex_t xrunMutex;
 
 OSStatus xrunCallback(
-    AudioDeviceID inDevice, 
-    UInt32 inChannel, 
-    Boolean isInput, 
-    AudioDevicePropertyID inPropertyID, 
+    AudioDeviceID inDevice,
+    UInt32 inChannel,
+    Boolean isInput,
+    AudioDevicePropertyID inPropertyID,
     void* inClientData)
 {
    PaMacXRunListNode *node = (PaMacXRunListNode *) inClientData;
@@ -698,4 +698,3 @@ int removeFromXRunListenerList( void *stream )
    // failure
    return xRunListSize;
 }
-

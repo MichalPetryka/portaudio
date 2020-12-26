@@ -457,10 +457,10 @@ const char *Pa_GetErrorText( PaError errorCode )
     case paIncompatibleStreamHostApi: result = "Incompatible stream host API"; break;
     case paBadBufferPtr:             result = "Bad buffer pointer"; break;
     default:
-		if( errorCode > 0 )
-			result = "Invalid error code (value greater than zero)";
+        if( errorCode > 0 )
+            result = "Invalid error code (value greater than zero)";
         else
-			result = "Invalid error code";
+            result = "Invalid error code";
         break;
     }
     return result;
@@ -1296,8 +1296,8 @@ PaError Pa_OpenDefaultStream( PaStream** stream,
     if( inputChannelCount > 0 )
     {
         hostApiInputParameters.device = Pa_GetDefaultInputDevice();
-		if( hostApiInputParameters.device == paNoDevice )
-			return paDeviceUnavailable;
+        if( hostApiInputParameters.device == paNoDevice )
+            return paDeviceUnavailable;
 
         hostApiInputParameters.channelCount = inputChannelCount;
         hostApiInputParameters.sampleFormat = sampleFormat;
@@ -1319,8 +1319,8 @@ PaError Pa_OpenDefaultStream( PaStream** stream,
     if( outputChannelCount > 0 )
     {
         hostApiOutputParameters.device = Pa_GetDefaultOutputDevice();
-		if( hostApiOutputParameters.device == paNoDevice )
-			return paDeviceUnavailable;
+        if( hostApiOutputParameters.device == paNoDevice )
+            return paDeviceUnavailable;
 
         hostApiOutputParameters.channelCount = outputChannelCount;
         hostApiOutputParameters.sampleFormat = sampleFormat;
@@ -1808,4 +1808,3 @@ PaError Pa_GetSampleSize( PaSampleFormat format )
 
     return (PaError) result;
 }
-
